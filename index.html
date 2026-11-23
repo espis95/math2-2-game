@@ -1,0 +1,313 @@
+<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="ranking-endpoint" content="https://script.google.com/macros/s/AKfycbznkT8gy2OTZA5x2cYj68P4FFDBsVAT0UQnFoJ8RBuPci96yHm6EHRCIv3OzGU0wCTE/exec"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#072731"><title>해저 사냥일지(공통수학2-2)</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#061f29;color:#f1f7ed;font:15px/1.5 system-ui,"Malgun Gothic",sans-serif}button{font:inherit;cursor:pointer;border:none}button:focus-visible{outline:3px solid #fff;outline-offset:3px}header,main{width:min(1050px,100%);margin:auto}header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px}h1{font-size:clamp(18px,3vw,27px);margin:0;letter-spacing:-.07em}h1 i{font-style:normal;color:#80e0cb}header small{font-weight:600;color:#abd4d1}main{padding:0 14px 12px}#sea{height:min(73dvh,640px);min-height:310px;position:relative;overflow:hidden;background:#13768a;border-radius:18px;border:1px solid #407780}canvas{width:100%;height:100%;display:block}.hud{position:absolute;left:12px;right:12px;top:12px;display:flex;justify-content:space-between;gap:6px;pointer-events:none}.glass,.stat{background:#072b36dd;color:white;border:1px solid #72c9c04d;border-radius:12px;padding:7px 11px}.stat{display:inline-block;font-weight:700;font-variant-numeric:tabular-nums}.stat b{color:#ffe19e}.status{font-size:12px}.hp{height:5px;background:#476069;margin:4px 0;border-radius:4px;overflow:hidden}.hp i{display:block;height:100%;background:#83ebba}.pad{position:absolute;bottom:16px;left:16px;width:116px;height:116px;border-radius:50%;background:#052b39aa;border:1px solid #a5eee579;color:#c1fff1;touch-action:none;user-select:none;display:grid;place-items:center}.pad span{position:absolute;font-size:13px}.pad span:nth-child(1){top:3px}.pad span:nth-child(2){bottom:3px}.pad span:nth-child(3){left:8px}.pad span:nth-child(4){right:8px}.knob{width:41px;height:41px;border-radius:50%;background:#bdf3df;border:5px solid #65b5a6;pointer-events:none}.action{position:absolute;bottom:18px;right:15px;display:grid;gap:8px}.btn{border-radius:10px;background:#123c49;color:#e9f8f2;border:1px solid #386674;padding:9px 15px;font-weight:700}.primary{background:#ffcd72;border-color:#ffcd72;color:#233136}.btn:disabled{opacity:.48;cursor:default}.overlay{position:absolute;inset:0;background:#05202a94;display:grid;place-items:center;padding:12px;z-index:2}.overlay[hidden]{display:none}.panel{width:min(430px,100%);max-height:100%;overflow:auto;padding:clamp(16px,3vw,27px);background:#082c37f7;border:1px solid #57908c;border-radius:18px;box-shadow:0 12px 54px #05232c70}.panel h2{font-size:clamp(22px,4vw,34px);letter-spacing:-.05em;margin:0 0 7px}.panel p{color:#c4dedb;margin:8px 0 15px}.panel .big{font-size:clamp(32px,6vw,53px);line-height:1.1;color:#fff2ce}.panel .btn{margin:3px 3px 2px 0}.shop,.choice{width:100%;display:block;text-align:left;border-radius:10px;padding:9px 12px;margin:6px 0;background:#15434e;color:#effbf5;border:1px solid #42747a}.shop{display:flex;justify-content:space-between;align-items:center}.shop small{display:block;color:#b9d6cd}.shop strong{color:#ffda91}.shop:disabled{opacity:.63}.choice:disabled{opacity:.68}.choice.correct{background:#215f51;opacity:1}.choice.wrong{background:#813d41}.bar{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 3px;flex-wrap:wrap;color:#b9d5d2;font-size:13px}.bar b{color:#fee2a1}#toast{position:absolute;left:50%;bottom:16px;transform:translateX(-50%);color:#fff1bf;font-weight:700;text-align:center;pointer-events:none;text-shadow:0 1px 4px #001e29}.pad,.action{visibility:hidden}body.play .pad,body.play .action{visibility:visible}@media(max-width:550px){main{padding:0 5px}.hud{left:7px;right:7px;top:7px}.stat,.glass{padding:5px 7px;font-size:12px}.pad{width:98px;height:98px;left:10px;bottom:10px}.action{bottom:10px;right:9px}.action .btn{font-size:13px;padding:7px 10px}.bar{font-size:11px}#sea{height:74dvh}.panel{padding:16px}}@media(max-height:500px){header{padding:4px 15px}#sea{height:82dvh;min-height:225px}.bar{padding:2px}.panel h2{font-size:20px}.panel{padding:10px 16px}.panel p{margin:3px 0 6px}.choice,.shop{padding:4px 10px;margin:4px 0}}
+</style><header><h1><i>≋</i> 해저 사냥일지(공통수학2-2)</h1><small>멀티킬·포션판</small></header><main><div id="sea"><canvas aria-label="잠수부와 물고기가 움직이는 바다 사냥 화면"></canvas><div class="hud"><div class="glass"><strong id="depth"></strong><div class="hp"><i></i></div><div class="status" id="life"></div><div class="status" id="sonar" style="color:#ffda92"></div></div><div><span class="stat">점수 <b id="score">0</b></span> <span class="stat">🪙 <b id="cash">0</b></span></div></div><div class="pad" aria-label="상하좌우 이동 패드"><span>▲</span><span>▼</span><span>◀</span><span>▶</span><i class="knob"></i></div><div class="action"><button class="btn primary" id="store">장비 상점</button><button class="btn" id="mapBtn">해도</button><button class="btn" id="pause">Ⅱ 일시정지</button></div><div id="toast" role="status"></div><div class="overlay"><section class="panel" role="dialog" aria-modal="true" tabindex="-1"></section></div></div><div class="bar"><span id="gear"></span><span>화면 패드 · 방향키 / WASD 이동　 |　자동 공격</span></div></main>
+
+<script>
+'use strict';
+const $=s=>document.querySelector(s),canvas=$('canvas'),ctx=canvas.getContext('2d'),panel=$('.panel'),overlay=$('.overlay'),pad=$('.pad');
+const WORLD=12000, FLOOR=18000;
+const levels=[0,60,160,340,600,950,1350];
+const zones=['산호 여울','다시마 숲','상어 협곡','고래 회랑','푸른 황혼대','발광 심해','고대 해구'];
+// name, health, coins, score, contact damage, speed, silhouette, color, body radius
+const kinds=[
+ ['청줄돔',10,5,10,0,32,'reef','#69e0d3',12],['나비고기',15,7,16,0,29,'stripe','#ffc45f',15],
+ ['쥐치',23,9,24,0,32,'reef','#9acd78',16],['꼬치고기',32,14,40,9,56,'pike','#99c3b9',20],
+ ['청상아리',62,25,85,17,66,'shark','#74a7b5',35],['황다랑어',38,16,50,0,52,'pike','#e5c06d',23],
+ ['초롱아귀',95,39,150,23,68,'angler','#9170ab',27],['향유고래',270,100,480,0,36,'sperm','#8394a9',104],
+ ['흰동가리',12,6,13,0,35,'clown','#ff9555',12],['정어리',9,4,9,0,50,'silver','#b3e9e2',10],
+ ['노랑가오리',28,12,32,0,34,'ray','#c7aa70',24],['고래상어',165,60,235,0,33,'spotted','#608e9b',69],
+ ['귀상어',75,31,106,19,72,'hammer','#799b9f',40],['백상아리',130,60,225,28,79,'white','#9fabb2',53],
+ ['혹등고래',245,86,395,0,36,'hump','#729cad',92],['흰긴수염고래',550,180,990,0,32,'blue','#689cb8',164],
+ ['범고래',180,84,355,25,85,'orca','#32435a',64],['산갈치',110,48,188,0,44,'ribbon','#b1a4c2',58],
+ ['독사고기',120,55,215,24,86,'fang','#86769a',30],['대왕오징어',230,105,460,29,75,'squid','#ba747e',58],
+ ['심해 해파리',80,32,110,0,23,'jelly','#93a2ef',28],['메갈로돈',860,450,3200,40,77,'mega','#6a788b',116]
+];
+const bands=[[0,1,8,9],[2,3,9,10],[4,5,10,11,12],[5,11,13,14,16],[7,14,16,17],[6,17,18,19,20],[6,18,19,20]];
+const giants=[{id:15,x:2200,y:4450,w:1000,h:240},{id:21,x:6000,y:15800,w:680,h:380},
+ {id:21,x:5800,y:16600,w:650,h:300},
+ {id:21,x:1900,y:17300,w:600,h:260},
+ {id:21,x:8350,y:17700,w:600,h:200}];
+let cx=0,giantsSeen,giantsCaught;
+const gearNames=['작살 발사기','잠수 갑옷','오리발','멀티킬','회복 포션'],price=[38,36,30];
+let W=800,H=500,cam=0,mode='intro',player,fish,bolts,flashes,clock=0,spawn=0,fire=0,hurt=0,msgUntil=0,bag=[],lastQ='',best=0;
+try{best=Number(localStorage.getItem('ocean-hunt-best-v1'))||0}catch{}
+const keys=new Set();let stick={x:0,y:0},finger=null;
+const rand=(a,b)=>a+Math.random()*(b-a),clamp=(v,a,b)=>Math.max(a,Math.min(b,v)),zone=y=>levels.reduce((n,m,i)=>y>=m*10?i:n,0);
+const gates=[0,5000,22000], stageNames=['산호 탐사','거친 조류','무한 해구'];
+function stageFor(score){return score>=gates[2]?3:score>=gates[1]?2:1}
+function fishHealth(id,y,stage){
+ const depth=zone(y);
+ return Math.ceil(kinds[id][1]*(1+Math.max(0,depth-1)*.28)*(1+(stage-1)*.52));
+}
+function advance(){
+ const target=stageFor(player.score);
+ if(target===player.stage)return;
+ player.stage=target;
+ for(const f of fish){
+ const max=fishHealth(f.id,f.base,target);
+ f.hp=Math.ceil(max*f.hp/f.maxhp);f.maxhp=max;
+ }
+ screen('transition','<h2>스테이지 '+target+' · '+stageNames[target-1]+'</h2><p>장비와 점수를 이어갑니다. 포식자가 더 멀리서 다가오고 공격도 강해집니다.</p><p>'+(target===3?'이제 점수 제한 없이 사냥할 수 있습니다.':'누적 22,000점에 무한 해구가 열립니다.')+'</p>');
+ button('잠수 계속',()=>screen('play'),true);
+}
+function bossPosition(g){return fish.find(f=>f.home===g)||g}
+function sonar(p){
+ if(p.y<13500)return '';
+ let closest=Infinity,angle=0;
+ for(const g of giants){
+  if(g.id!==21||giantsCaught.has(g))continue;
+  const f=bossPosition(g),dx=f.x-p.x,dy=f.y-p.y,d=Math.hypot(dx,dy);
+  if(d<closest){closest=d;angle=Math.atan2(dy,dx)}
+ }
+ if(!Number.isFinite(closest))return '메갈로돈 4마리 사냥 완료';
+ return '메갈로돈 '+['→','↘','↓','↙','←','↖','↑','↗'][(Math.round(angle/(Math.PI/4))+8)%8]+' '+Math.round(closest/10)+' m';
+}
+function hud(){
+ const p=player;$('#sonar').textContent=sonar(p);$('#depth').textContent='S'+p.stage+' · '+Math.floor(p.y/10)+' m · '+zones[zone(p.y)]+' · '+(p.x<WORLD/3?'서쪽':p.x>WORLD*2/3?'동쪽':'중앙');$('#life').textContent='체력 '+Math.ceil(p.hp)+' / '+p.maxhp;$('.hp i').style.width=p.hp/p.maxhp*100+'%';$('#score').textContent=p.score;$('#cash').textContent=p.coins;
+ $('#gear').textContent='작살 '+(1+p.lv[0])+'단계　갑옷 '+(1+p.lv[1])+'단계　오리발 '+(1+p.lv[2])+'단계　멀티킬 '+(1+p.lv[3])+'단계　·　사냥 '+p.kills+'마리　·　'+(p.stage===3?'무한 해구':('다음 스테이지 '+gates[p.stage].toLocaleString()+'점'));
+}
+function resize(){const r=canvas.getBoundingClientRect();W=r.width;H=r.height;const k=Math.min(2,devicePixelRatio||1);canvas.width=Math.round(W*k);canvas.height=Math.round(H*k);ctx.setTransform(k,0,0,k,0,0);if(player)camera()}
+function addFish(id,x,y){const hp=fishHealth(id,y,player.stage);fish.push({id,x,y,hp,maxhp:hp,dir:Math.random()<.5?-1:1,phase:rand(0,6),base:y})}
+function camera(){cx=clamp(player.x-W/2,0,WORLD-W);cam=clamp(player.y-H*.44,0,FLOOR+55-H)}
+function fresh(){player={stage:1,run:globalThis.crypto?.randomUUID?.()||Date.now().toString(36)+'-'+Math.random().toString(36).slice(2),x:WORLD/2,y:115,hp:100,maxhp:100,coins:0,score:0,kills:0,lv:[0,0,0,0],face:1};fish=[];bolts=[];flashes=[];giantsSeen=new Set();giantsCaught=new Set();camera();clock=spawn=fire=hurt=0;bag=[];lastQ='';$('#toast').textContent='';for(let i=0;i<95;i++)addFish(bands[0][i%4],cx+rand(22,W-22),rand(48,Math.min(490,H)));addFish(0,player.x+90,player.y+10);hud()}
+function habitat(f){return f.home}
+function populate(){
+ const p=player;
+ fish=fish.filter(f=>habitat(f)||Math.abs(f.x-p.x)<W*.9+140&&Math.abs(f.y-p.y)<H+170||bolts.some(b=>b.f===f));
+ for(const g of giants){
+  if(!giantsSeen.has(g)&&Math.abs(p.x-g.x)<W*.6+g.w&&Math.abs(p.y-g.y)<H*.6+g.h){
+   addFish(g.id,g.x,g.y);const f=fish.at(-1);f.home=g;giantsSeen.add(g);notify(kinds[g.id][0]+' 출현!');
+  }
+ }
+ const missing=136+24*(p.stage-1)-fish.filter(f=>!f.home).length;
+ for(let i=0;i<Math.min(12,missing);i++){
+ const y=clamp(p.y+rand(-H*.55,H*.65),35,FLOOR-25);
+ let ids=bands[zone(y)];
+ if(ids.some(id=>kinds[id][4])&&Math.random()<.12*p.stage)ids=ids.filter(id=>kinds[id][4]);
+ const id=ids[Math.floor(Math.random()*ids.length)];
+ let x=clamp(p.x+(Math.random()<.5?-1:1)*rand(W*.35,W*.62),25,WORLD-25);
+ if(Math.abs(x-p.x)<85)x=clamp(p.x+(p.x<WORLD/2?1:-1)*W*.44,25,WORLD-25);
+ addFish(id,x,y);
+ }
+}
+function chart(){
+ screen('map','<h2>잠수 해도</h2><p>현재 위치와 대형 생물의 서식지를 확인하세요.</p><canvas id="mapCanvas" style="width:100%;height:auto;background:#103449;border-radius:10px"></canvas><p>◆ 서쪽 220 m · 수심 445 m  흰긴수염고래<br>▲ 메갈로돈 서식지 4곳 · 수심 1,580~1,770 m<br>이번 잠수에서 사냥한 메갈로돈 '+giants.filter(g=>g.id===21&&giantsCaught.has(g)).length+' / 4마리<br>현재 가로 위치 '+Math.round(player.x/10)+' / 1,200 m</p>');
+ const c=$('#mapCanvas');c.width=420;c.height=205;const a=c.getContext('2d');
+ levels.forEach((m,i)=>{const y=m/1800*205;a.fillStyle=['#318d91','#267b80','#216576','#1b5368','#18435b','#18364d','#142b40'][i];a.fillRect(0,y,420,205-y);a.fillStyle='#e3f5f3';a.font='11px sans-serif';if(i>0)a.fillText(m+' m',5,y+12)});
+ giants.forEach(g=>{const pos=bossPosition(g);a.fillStyle='#ffd383';a.font='bold 17px sans-serif';a.fillText(giantsCaught.has(g)?'✓':g.id===15?'◆':'▲',pos.x/WORLD*420-7,pos.y/FLOOR*205+6)});
+ a.beginPath();a.arc(clamp(player.x/WORLD*420,4,416),clamp(player.y/FLOOR*205,4,201),4,0,Math.PI*2);a.fillStyle='white';a.fill();button('잠수 계속',()=>screen('play'),true)
+}
+function clearInput(){keys.clear();stick={x:0,y:0};finger=null;$('.knob').style.transform='none'}
+function screen(m,markup=''){mode=m;clearInput();document.body.classList.toggle('play',m==='play');overlay.hidden=m==='play';panel.innerHTML=markup;if(!overlay.hidden){panel.scrollTop=0;panel.focus({preventScroll:true})}}
+function button(label,fn,primary=false){const b=document.createElement('button');b.className='btn'+(primary?' primary':'');b.textContent=label;b.onclick=fn;panel.append(b);return b}
+function intro(){screen('intro','<h2 class="big">해저 사냥일지(공통수학2-2)</h2><p>1,800 m 바다에서 장비를 강화하세요. 누적 5,000점에 2스테이지, 22,000점에 무한 해구가 열립니다. 해도를 열면 서쪽 고래 회랑과 깊은 해구의 메갈로돈 서식지를 찾을 수 있습니다.</p>');button('잠수 시작 →',()=>{fresh();screen('play')},true);button('랭킹 기록실',()=>ranking(intro))}
+function notify(t){$('#toast').textContent=t;msgUntil=clock+2.1}
+function pause(){if(mode!=='play')return;screen('pause','<h2>잠시 정지</h2><p>현재 점수 '+player.score+'점 · 사냥 '+player.kills+'마리</p>');button('계속 잠수',()=>screen('play'),true);button('점수 정산 후 귀환',()=>finish(true))}
+function finish(home){remember();best=Math.max(best,player.score);try{localStorage.setItem('ocean-hunt-best-v1',best)}catch{}screen('end','<h2>'+(home?'항구에 도착했습니다':'구조선이 도착했습니다')+'</h2><p>이번 잠수 기록</p><h2 class="big">'+player.score+'점</h2><p>사냥 '+player.kills+'마리　·　최고 기록 '+best+'점</p>');button('다시 잠수',()=>{fresh();screen('play')},true);button('랭킹 기록실',()=>ranking(()=>finish(home),player.run))}
+const baseQuestions=[
+ ['x²=1이면 x=1이다. 이 명제의 반례는?','−1','0','1','2','(−1)²=1이지만 −1≠1이다.'],
+ ['“모든 실수 x에 대해 x²>0이다”의 반례는?','0','−1','1','2','0²=0이므로 0보다 크지 않다.'],
+ ['p가 “4의 배수”, q가 “8의 배수”일 때 p는 q이기 위한 어떤 조건일까?','필요조건만','충분조건만','필요충분조건','어느 쪽도 아님','8의 배수는 모두 4의 배수이고, 4는 8의 배수가 아니다.'],
+ ['“p이면 q이다”의 대우는?','q가 아니면 p가 아니다','q이면 p이다','p가 아니면 q가 아니다','p이면 q가 아니다','가정과 결론을 바꾸고 둘 다 부정한다.'],
+ ['x²−x−6<0의 해 중 양수인 x의 범위는?','0<x<3','−2<x<3','0<x≤3','x>3','(x+2)(x−3)<0에서 −2<x<3이고, 양수 조건을 함께 적용한다.'],
+ ['정의역의 모든 x에 대해 f(x)=x인 함수는?','항등함수','상수함수','이차함수','무리함수','모든 입력이 자기 자신에 대응한다.'],
+ ['f(1)=2, f(2)=4인 일대일대응에서 f⁻¹(4)는?','2','1','4','8','4에 도착하는 입력은 2이다.'],
+ ['y=−1/(x+2)+3의 세로 점근선은?','x=−2','x=2','y=3','y=−3','분모 x+2가 0이 되는 x=−2이다.'],
+ ['y=−√(x−3)+1의 치역은?','y≤1','y≥1','y≤3','y≥3','제곱근 앞에 음의 부호가 있으므로 최댓값이 1이다.'],
+ ['y=√(2x+6)의 그래프가 시작하는 점은?','(−3, 0)','(3, 0)','(0, −3)','(−6, 0)','2x+6=0에서 x=−3이고 이때 y=0이다.']
+];
+for(let n=2;n<=6;n++){
+ const val=(2*n+1)**2;
+ baseQuestions.push(['f(x)=2x+1, g(x)=x²일 때 (g∘f)('+n+')의 값은?',String(val),String(2*n*n+1),String(val-1),String(val+2),'먼저 f('+n+')='+ (2*n+1)+'을 구한 다음 제곱한다.']);
+ baseQuestions.push(['y=3/(x−'+n+')+'+(n+1)+'의 치역에서 제외되는 값은?',String(n+1),String(n),String(-n),String(-n-1),'분수 부분은 0이 될 수 없으므로 가로 점근선 y='+(n+1)+'의 높이를 제외한다.']);
+}
+// Each round draws one question from each type before a type repeats.
+const questionTypes=[
+ baseQuestions.slice(0,2), ...baseQuestions.slice(2,10).map(q=>[q]),
+ baseQuestions.slice(10).filter((_,i)=>i%2===0), baseQuestions.slice(10).filter((_,i)=>i%2===1)
+];
+function variants(make){questionTypes.push([2,3,4,5,6].map(make))}
+function numbers(prompt,value,why){return [prompt,...[value,value+1,value-1,value+2].map(String),why]}
+variants(n=>['“모든 실수 x에 대해 x²≥'+n+'이다”의 부정은?','어떤 실수 x에 대해 x²<'+n+'이다','모든 실수 x에 대해 x²<'+n+'이다','어떤 실수 x에 대해 x²≤'+n+'이다','모든 실수 x에 대해 x²>'+n+'이다','‘모든’은 ‘어떤’으로 바꾸고, ≥를 부정하면 <가 된다.']);
+variants(n=>numbers('전체집합이 1부터 '+(2*n)+'까지의 자연수일 때, 조건 “x는 짝수이다”의 진리집합의 원소 수는?',n,'2부터 '+(2*n)+'까지 2씩 세면 '+n+'개이다.'));
+variants(n=>numbers('실수 a, b에 대해 a²−'+(2*n)+'a+b²의 최솟값은?',-n*n,'(a−'+n+')²+b²−'+n*n+'으로 정리하면 두 제곱이 모두 0일 때 최소이다.'));
+variants(n=>numbers('양수 a에 대해 a+'+(n*n)+'/a의 최솟값은?',2*n,'두 양수의 곱은 '+(n*n)+'이다. 산술평균과 기하평균의 관계를 쓰면 합은 '+(2*n)+' 이상이고 a='+n+'일 때 등호가 성립한다.'));
+variants(n=>numbers('정의역이 {−'+n+', 0, '+n+'}인 f(x)=x²의 치역의 원소 수는?',2,'−'+n+'과 '+n+'의 제곱이 같아 치역에는 0과 '+(n*n)+'만 남는다.'));
+variants(n=>['실수 전체에서 f(x)=2x+'+n+'일 때 역함수는?','(x−'+n+')/2','(x+'+n+')/2','2x−'+n,'x/2+'+n,'y=2x+'+n+'에서 x=(y−'+n+')/2를 얻고 x와 y를 맞바꾼다.']);
+variants(n=>numbers('(g∘f)(x)=3x+'+n+'인 두 일대일대응에서 (f⁻¹∘g⁻¹)('+(4*3+n)+')의 값은?',4,'f⁻¹∘g⁻¹는 g∘f의 역함수이다. 3x+'+n+'='+(12+n)+'을 풀면 x=4이다.'));
+variants(n=>['√('+n+'−x)가 실수가 되는 x의 범위는?','x≤'+n,'x≥'+n,'x<'+n,'x>'+n,'제곱근 안이 0 이상이어야 하므로 '+n+'−x≥0이다. 경계값도 포함한다.']);
+variants(n=>['x<0일 때 √('+n*n+'x²)을 간단히 하면?','−'+n+'x',n+'x','−'+n+'x²',n+'x²','√(a²)=|a|이다. '+n+'x가 음수이므로 절댓값은 −'+n+'x이다.']);
+variants(n=>['x≠'+n+'일 때 (x²−'+n*n+')/(x−'+n+')을 간단히 하면?','x+'+n,'x−'+n,'x²+'+n,'1','분자를 (x−'+n+')(x+'+n+')으로 인수분해하면 0이 아닌 공통인수를 약분할 수 있다.']);
+variants(n=>numbers('집합 A={1, 2}에서 원소가 '+n+'개인 집합 B로 가는 함수는 모두 몇 개인가?',n*n,'1과 2의 함숫값을 각각 '+n+'가지로 정하므로 '+n+' × '+n+'가지이다.'));
+variants(n=>['y=1/x의 그래프를 오른쪽으로 '+n+', 아래로 1만큼 평행이동한 식은?','y=1/(x−'+n+')−1','y=1/(x+'+n+')−1','y=1/(x−'+n+')+1','y=1/(x+'+n+')+1','오른쪽 이동은 x 대신 x−'+n+'을 넣고, 아래로 1만큼 이동하면 함숫값에서 1을 뺀다.']);
+questionTypes.push(
+ [['다음 중 명제는?','9는 소수이다.','x는 크다.','바다는 아름답다.','창문을 열어라.','9는 소수가 아니므로 첫 문장은 거짓이라고 판별할 수 있다. 거짓인 문장도 명제이다.']],
+ [['가정 p, 결론 q인 명제의 역은?','q이면 p이다','p이면 q이다','q가 아니면 p가 아니다','p가 아니면 q가 아니다','가정과 결론의 자리를 바꾸면 역이다.']],
+ [['다음 중 x의 함수 y의 그래프가 될 수 있는 것은?','y=x²','x=y²','x²+y²=1','x=2','y=x²에서는 각 x에 y가 하나씩 정해진다. 나머지는 한 수직선과 두 점 이상에서 만날 수 있다.']],
+ [['실수 전체에서 실수 전체로 가는 함수 중 일대일대응은?','y=3x−2','y=x²','y=|x|','y=4','3x−2는 서로 다른 입력의 출력이 다르고, 임의의 실수 y에 대해 x=(y+2)/3이 존재한다.']]
+);
+function shuffle(arr){for(let i=arr.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[arr[i],arr[j]]=[arr[j],arr[i]]}return arr}
+function nextQ(){
+ if(!bag.length){
+ bag=shuffle(questionTypes.map(pool=>pool[Math.floor(Math.random()*pool.length)]));
+ if(bag.at(-1)===lastQ)bag.unshift(bag.pop());
+ }
+ return lastQ=bag.pop()
+}
+function cost(i){if(i===4)return 1000;if(i===3)return (player.lv[3]+2)*1000;return Math.round(price[i]*Math.pow(1.55,player.lv[i]))}
+function shop(){screen('shop','<h2>잠수 장비 상점</h2><p>보유 '+player.coins+'코인 · 정답 시 구매 · 오답 시 가격의 10% 차감(1코인 단위 반올림)</p>');
+ const detail=['공격력 +7 · 발사 간격 단축','피해 감소 · 최대 체력 +20 · 체력 35 회복','이동 속도 +14','서로 다른 표적을 단계당 한 마리씩 동시에 공격','구매 즉시 체력 10 회복 · 최대 체력까지'];
+ gearNames.forEach((name,i)=>{const b=document.createElement('button');b.className='shop';const potion=i===4,max=!potion&&player.lv[i]>=(i===3?4:11);b.disabled=(potion&&player.hp>=player.maxhp)||max||player.coins<cost(i);b.innerHTML='<span>'+name+(potion?'':(' · '+(player.lv[i]+1)+'단계'))+'<small>'+detail[i]+'</small></span><strong>'+(max?'최고 단계':cost(i)+' 🪙')+'</strong>';b.onclick=()=>quiz(i);panel.append(b)});button('잠수 계속',()=>screen('play'))}
+function writeMath(element,text){
+ let start=0;
+ for(const match of text.matchAll(/√\(([^()]+)\)|(\([^()]+\)|[a-zA-Z0-9²]+)\/(\([^()]+\)|[a-zA-Z0-9²]+)/g)){
+  element.append(text.slice(start,match.index));
+  const ns='http://www.w3.org/1998/Math/MathML';
+  const math=document.createElementNS(ns,'math');
+  const root=document.createElementNS(ns,match[1]?'msqrt':'mfrac');
+  for(const part of (match[1]?[match[1]]:match.slice(2,4))){
+  const expr=document.createElementNS(ns,'mtext');
+  expr.textContent=part.replace(/^\((.*)\)$/,'$1');root.append(expr);}
+  math.setAttribute('display','inline');math.style.fontSize=match[1]?'1em':'1.22em';math.append(root);
+  element.append(math);start=match.index+match[0].length;
+ }
+ element.append(text.slice(start));
+}
+function quiz(i){const q=nextQ(),c=cost(i);screen('quiz','<h2>장비 구매 문제</h2><p>'+gearNames[i]+' · '+c+'코인</p>');const title=document.createElement('h3');writeMath(title,q[0]);panel.append(title);let done=false;
+ shuffle(q.slice(1,5)).forEach(opt=>{const b=document.createElement('button');b.className='choice';writeMath(b,opt);b.dataset.answer=opt;b.onclick=()=>{if(done)return;done=true;const ok=opt===q[1];panel.querySelectorAll('.choice').forEach(a=>{a.disabled=true;if(a.dataset.answer===q[1])a.classList.add('correct')});if(ok){player.coins-=c;if(i===4)player.hp=Math.min(player.maxhp,player.hp+10);else player.lv[i]++;if(i===1){player.maxhp+=20;player.hp=Math.min(player.maxhp,player.hp+35)}hud()}else{player.coins-=Math.round(c/10);b.classList.add('wrong');hud()}const fb=document.createElement('p');writeMath(fb,(ok?(i===4?'정답! 포션을 사용했습니다. ':'정답! 장비를 강화했습니다. '):('오답! '+Math.round(c/10)+'코인 차감 · '+(c-Math.round(c/10))+'코인 반환. '))+q[5]);panel.append(fb);back.remove();button('잠수 계속',()=>screen('play'),true);button('상점으로',shop);panel.scrollTop=panel.scrollHeight};panel.append(b)});const back=button('구매 취소',shop)}
+$('#mapBtn').onclick=chart;$('#store').onclick=shop;$('#pause').onclick=pause;
+function movePad(e){const r=pad.getBoundingClientRect(),rad=r.width*.32,x=(e.clientX-r.left-r.width/2)/rad,y=(e.clientY-r.top-r.height/2)/rad,n=Math.max(1,Math.hypot(x,y));stick={x:x/n,y:y/n};$('.knob').style.transform='translate('+stick.x*rad+'px,'+stick.y*rad+'px)'}
+pad.onpointerdown=e=>{if(finger!==null)return;finger=e.pointerId;pad.setPointerCapture(finger);movePad(e)};pad.onpointermove=e=>{if(e.pointerId===finger)movePad(e)};pad.onlostpointercapture=pad.onpointercancel=pad.onpointerup=e=>{if(e.pointerId===finger)clearInput()};
+onkeydown=e=>{const k=e.key.toLowerCase();if(k==='escape'&&mode==='play')pause();else if(mode==='play'&&['arrowup','arrowdown','arrowleft','arrowright','w','a','s','d'].includes(k)){e.preventDefault();keys.add(k)}};onkeyup=e=>keys.delete(e.key.toLowerCase());onblur=()=>{clearInput();pause()};document.addEventListener('visibilitychange',()=>{if(document.hidden)pause()});
+function step(dt){clock+=dt;const p=player;hurt=Math.max(0,hurt-dt);let dx=stick.x+Number(keys.has('arrowright')||keys.has('d'))-Number(keys.has('arrowleft')||keys.has('a')),dy=stick.y+Number(keys.has('arrowdown')||keys.has('s'))-Number(keys.has('arrowup')||keys.has('w'));const norm=Math.max(1,Math.hypot(dx,dy)),speed=116+p.lv[2]*14;
+ p.x=clamp(p.x+dx/norm*dt*speed,22,WORLD-22);p.y=clamp(p.y+dy/norm*dt*speed,35,FLOOR);if(dx)p.face=Math.sign(dx);camera();
+ const z=zone(p.y);spawn-=dt;if(spawn<=0){spawn=.30;populate()}
+ let charges=fish.reduce((n,f)=>n+Number(!!f.charge),0);
+ for(const f of fish){const k=kinds[f.id],dist=Math.hypot(p.x-f.x,p.y-f.y),attack=k[4]&&z>0&&dist<205+65*p.stage+radius(f.id);
+ if(f.charge&&clock>=f.charge.end)f.charge=null;
+ if(attack&&z>=3&&dist>65&&dist<215&&charges<2&&!f.charge&&clock>(f.ready||0)&&Math.random()<dt*.22){
+  f.charge={start:clock+.55,end:clock+.88,dx:(p.x-f.x)/dist,dy:(p.y-f.y)/dist};f.ready=clock+rand(5,9);charges++;
+ }
+ if(f.charge){
+  if(clock>=f.charge.start){f.x=clamp(f.x+f.charge.dx*275*dt,20,WORLD-20);f.y=clamp(f.y+f.charge.dy*275*dt,600,FLOOR);f.base=f.y}
+ }else if(attack&&(!f.home||Math.abs(p.x-f.home.x)<f.home.w+210&&Math.abs(p.y-f.home.y)<f.home.h+150)){f.x+=(p.x-f.x)/Math.max(1,dist)*k[5]*(1+.16*(p.stage-1)+z*.055)*dt;f.y=clamp(f.y+(p.y-f.y)/Math.max(1,dist)*k[5]*(1+.16*(p.stage-1)+z*.055)*dt,600,FLOOR);f.base=f.y;f.dir=p.x>f.x?1:-1}else{
+ const lo=f.home?f.home.x-f.home.w:20,hi=f.home?f.home.x+f.home.w:WORLD-20;
+ f.x+=f.dir*k[5]*dt;if(f.x<lo)f.dir=1;if(f.x>hi)f.dir=-1;
+ if(f.home)f.base+=(f.home.y-f.base)*dt*.3;
+ f.y=f.base+Math.sin(clock*.7+f.phase)*6;
+ }
+ if(attack&&Math.hypot((p.x-f.x)/(radius(f.id)+12),(p.y-f.y)/(radius(f.id)*.49+12))<1&&hurt===0){p.hp=Math.max(0,p.hp-Math.max(3,Math.round(k[4]*(1+.35*(p.stage-1)+z*.045)/(1+.10*p.lv[1]))));hurt=.88;hud();if(p.hp===0){finish(false);return}}}
+ fire-=dt;
+ if(fire<=0){
+  const range=147+p.lv[0]*8;
+  const targets=fish.map(f=>({f,dist:Math.hypot(f.x-p.x,f.y-p.y)-radius(f.id)*.6}))
+   .filter(v=>v.dist<range).sort((a,b)=>a.dist-b.dist).slice(0,p.lv[3]+1);
+  if(targets.length){
+   p.face=targets[0].f.x>=p.x?1:-1;
+   for(const {f} of targets)bolts.push({x:p.x,y:p.y,f,dmg:10+p.lv[0]*7,level:p.lv[0]});
+   fire=Math.max(.35,.85-p.lv[0]*.05);
+  }else fire=.08;
+ }
+ for(const b of bolts){if(b.f.hp<=0){b.dead=true;continue}const dx=b.f.x-b.x,dy=b.f.y-b.y,dist=Math.hypot(dx,dy);if(dist<=400*dt+5){b.dead=true;b.f.hp-=b.dmg;if(b.f.hp<=0){const k=kinds[b.f.id];if(b.f.home)giantsCaught.add(b.f.home);p.kills++;p.coins+=k[2];p.score+=k[3];flashes.push({x:b.f.x,y:b.f.y,life:1,text:'+'+k[3]+'점 · '+k[2]+'🪙'});if(p.kills===4)notify('상점에서 장비를 확인하세요')}}else{b.x+=dx/dist*400*dt;b.y+=dy/dist*400*dt}}
+ bolts=bolts.filter(b=>!b.dead);fish=fish.filter(f=>f.hp>0);flashes.forEach(f=>{f.life-=dt;f.y-=dt*20});flashes=flashes.filter(f=>f.life>0);
+ advance();if(z===0)p.hp=Math.min(p.maxhp,p.hp+dt*2);if(clock>msgUntil)$('#toast').textContent='';hud()}
+function radius(id){return kinds[id][8]}
+function poly(points,color){ctx.fillStyle=color;ctx.beginPath();points.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fill()}
+function oval(x,y,rx,ry,color){ctx.fillStyle=color;ctx.beginPath();ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2);ctx.fill()}
+function fishArt(f,t){const id=f.id,k=kinds[id],r=radius(id),y=f.y-cam;if(y< -r||y>H+r||f.x<cx-r*2||f.x>cx+W+r*2)return;
+ ctx.save();ctx.translate(f.x,y);ctx.scale(f.dir*r/20,r/20);
+ const type=k[6],fill=k[7],tail=-25+Math.sin(t*5+f.phase)*2.1;
+ const whale=['blue','hump','sperm','orca'].includes(type),shark=['shark','hammer','white','mega','spotted'].includes(type);
+ const body=whale?7.2:shark?6.8:['pike','ribbon','fang'].includes(type)?5:10;
+ if(type==='ray'){
+  poly([[-20,0],[-7,-14],[3,-8],[16,0],[2,8],[-7,14]],fill);poly([[-15,-1],[-36,4],[-15,2]],fill);oval(8,-2,1.3,1.3,'#15303a')
+ }else if(type==='jelly'||type==='squid'){
+  oval(4,0,14,body,fill);for(let j=-2;j<=2;j++){ctx.beginPath();ctx.moveTo(-6,j*3);ctx.quadraticCurveTo(-18,j*5+Math.sin(t*3+j)*3,-28,j*4);ctx.strokeStyle=fill;ctx.lineWidth=1.3;ctx.stroke()}oval(9,-2,1.7,1.7,'#172e40');
+ }else{
+  poly([[-13,0],[tail,-(whale?6:11)],[tail+3,1],[tail,whale?5:9]],fill);
+  if(shark||type==='pike'||type==='orca')poly([[-7,-4],[-4,type==='mega'?-16:-12],[4,-4]],fill);
+  oval(0,0,20,body,fill);oval(3,body*.51,14,body*.33,whale?'#b3c9ce':'#d5e5d8');
+  if(type==='sperm'){ctx.fillStyle=fill;ctx.fillRect(6,-7,12,8)}
+  poly([[-3,1],[4,2],[type==='hump'?-13:-3,type==='hump'?17:body+3]],'#477582');
+  if(type==='hammer')oval(14,-1,3,8,fill);
+  if(type==='spotted')for(let j=0;j<14;j++)oval(-12+(j%7)*3.4,-4+Math.floor(j/7)*3+(j%2),.65,.65,'#dae6c9');
+  if(type==='orca')oval(8,-3.6,3.7,1.5,'#f1f4ea');
+  if(type==='blue'||type==='hump'){for(let j=0;j<3;j++){ctx.beginPath();ctx.moveTo(13,1.8+j);ctx.quadraticCurveTo(7,3+j,2,3+j);ctx.strokeStyle='#869da5';ctx.lineWidth=.35;ctx.stroke()}}
+  if(['clown','stripe','reef','ribbon'].includes(type)){ctx.strokeStyle=type==='clown'?'#fbecda':type==='ribbon'?'#e27f7c':'#417f87';ctx.lineWidth=type==='clown'?3:1.8;for(let x=-8;x<4;x+=8){ctx.beginPath();ctx.moveTo(x,-body*.7);ctx.lineTo(x-2,body*.6);ctx.stroke()}}
+  oval(13,-2,whale?.75:1.8,whale?.75:1.8,'#122935');
+  if(type==='angler'){ctx.strokeStyle='#b9afcd';ctx.lineWidth=1.2;ctx.beginPath();ctx.moveTo(7,-9);ctx.quadraticCurveTo(19,-27,24,-14);ctx.stroke();oval(24,-14,3,3,'#e2ff99')}
+  if(k[4]){poly([[12,2],[19,.6],[16,4.6]],'#3d3342');if(shark||type==='fang')for(let j=0;j<3;j++)poly([[13+j*1.6,2],[14+j*1.6,1.8],[13.6+j*1.6,3]],'#fff')}
+ }
+ ctx.restore();
+ if((f.charge&&clock<f.charge.start)||(r>=32&&(f.home||Math.hypot(player.x-f.x,player.y-f.y)<95))){ctx.save();ctx.textAlign="center";ctx.font="bold 12px sans-serif";ctx.fillStyle="#effaf1";ctx.strokeStyle="#193a48";ctx.lineWidth=3;const lab=(f.charge&&clock<f.charge.start?'돌진 주의! ': '')+k[0]+(k[4]?" ⚠":"");ctx.strokeText(lab,f.x,y-r*.63-9);ctx.fillText(lab,f.x,y-r*.63-9);ctx.restore()}
+ if(f.hp<f.maxhp){ctx.fillStyle='#092d37';ctx.fillRect(f.x-r,y-r-4,2*r,3);ctx.fillStyle='#f1cb83';ctx.fillRect(f.x-r,y-r-4,2*r*f.hp/f.maxhp,3)}}
+function diver(t){const p=player;ctx.save();ctx.translate(p.x,p.y-cam+Math.sin(t*3)*1.2);ctx.scale(p.face,1);if(hurt>0&&Math.floor(hurt*9)%2)ctx.globalAlpha=.48;
+ const kick=Math.sin(t*6)*3;poly([[-8,-2],[-17,-4],[-24,-9+kick],[-28,-7+kick],[-19,1],[-9,5]],'#173d4c');poly([[-10,3],[-19,6],[-28,3-kick],[-31,6-kick],[-20,11],[-8,8]],'#ffbd5b');
+ oval(-4,0,12,7,'#24485a');oval(-7,-6,9,4,'#ffc569');oval(7,-7,8,8,'#e48458');oval(10,-8,7,4.3,'#133642');oval(11,-8.4,4.6,2.6,'#98f3eb');poly([[0,2],[7,6],[17,4],[17,1],[8,2],[4,-1]],'#dfa06c');poly([[10,2],[29,2],[32,0],[37,2],[31,4],[12,5]],'#d9dfd1');ctx.restore()}
+function water(t){const z=zone(player.y),tops=['#69cfc2','#228f95','#23657d','#175276','#253953','#202946','#151c35'],bottoms=['#137c8a','#105a6e','#13394f','#103850','#15263e','#121d38','#090e20'];const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,tops[z]);g.addColorStop(1,bottoms[z]);ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ for(let i=0;i<7;i++){let x=(i*181+Math.sin(t*.18+i)*12)%(W+180)-90;poly([[x,0],[x+48,0],[x-90,H],[x-210,H]],z<2?'#ddffdb0e':'#a4d2fc08')}
+ for(let i=0;i<50;i++){const x=(i*107.3+Math.sin(t*.5+i)*4)%W,y=((i*83.7-cam*.6-t*(4+i%5))%H+H)%H;ctx.strokeStyle=z<2?'#c8fff344':'#abdaed40';ctx.lineWidth=1;ctx.beginPath();ctx.arc(x,y,1+i%3,0,2*Math.PI);ctx.stroke()}
+ // Distant terraced reefs and sea fans scroll with the dive.
+ for(let i=0;i<10;i++){const x=((i*177-cx*.32)%(W+110)+W+110)%(W+110)-45,y=((i*261+375-cam*.76)%(H+300)+H+300)%(H+300)-80;
+ ctx.save();ctx.translate(x,y);ctx.globalAlpha=.52;poly([[-39,3],[-25,-6],[8,-10],[36,-3],[48,6],[7,19],[-22,14]],z>1?'#102c42':'#1b6e74');
+ for(let j=0;j<4;j++){const a=j*9-13,b=10+(i+j)%4*7;ctx.strokeStyle=z===0?(j%2?'#e79e83':'#d27c73'):z===1?'#3d9983':'#677da4';ctx.lineWidth=3;ctx.lineCap='round';ctx.beginPath();ctx.moveTo(a,-4);ctx.quadraticCurveTo(a-5,-b*.6,a+Math.sin(t+i+j)*2,-b);ctx.moveTo(a-2,-b*.55);ctx.lineTo(a-7,-b*.82);ctx.stroke()}ctx.restore()}
+ if(cam<22){ctx.strokeStyle='#ddfff882';ctx.lineWidth=2;ctx.beginPath();for(let x=0;x<W;x+=4){let y=12-cam+Math.sin(x/29+t)*2;if(x===0)ctx.moveTo(x,y);else ctx.lineTo(x,y)}ctx.stroke()}
+ if(cam+H>FLOOR+10){poly([[0,FLOOR+35-cam],[W*.25,FLOOR+20-cam],[W*.46,FLOOR+30-cam],[W*.8,FLOOR+14-cam],[W,FLOOR+26-cam],[W,H],[0,H]],'#101e2a')}
+}
+function render(t){water(t);ctx.save();ctx.translate(-cx,0);fish.forEach(f=>fishArt(f,t));diver(t);for(const b of bolts){const lv=b.level||0;ctx.strokeStyle=['#fff3ac','#71e7ff','#bd9aff','#ffb45d'][Math.floor(lv/3)];ctx.lineWidth=2+lv*.24;const angle=Math.atan2(b.f.y-b.y,b.f.x-b.x);ctx.beginPath();ctx.moveTo(b.x-(10+lv*2)*Math.cos(angle),b.y-cam-(10+lv*2)*Math.sin(angle));ctx.lineTo(b.x,b.y-cam);ctx.stroke();if(lv>=3)oval(b.x,b.y-cam,2+lv*.25,2+lv*.25,'#f5fffc');if(lv>=6){ctx.beginPath();ctx.arc(b.x,b.y-cam,4+lv*.35,0,Math.PI*2);ctx.lineWidth=1;ctx.stroke()}}
+ ctx.textAlign='center';ctx.font='bold 14px system-ui';for(const f of flashes){ctx.save();ctx.globalAlpha=Math.min(1,f.life*2);ctx.fillStyle='#fff3ba';ctx.strokeStyle='#184858';ctx.lineWidth=3;ctx.strokeText(f.text,f.x,f.y-cam);ctx.fillText(f.text,f.x,f.y-cam);ctx.restore()}ctx.restore()}
+const historyKey='ocean-expeditions-v3';
+let records=[];
+try{records=JSON.parse(localStorage.getItem(historyKey)||'[]');if(!Array.isArray(records))records=[]}catch{}
+function saveRecords(){try{localStorage.setItem(historyKey,JSON.stringify(records));return true}catch{return false}}
+function remember(){
+ if(records.some(r=>r.id===player.run))return;
+ records.unshift({id:player.run,date:Date.now(),name:'잠수부',score:player.score,kills:player.kills,stage:player.stage});
+ records=records.slice(0,100);saveRecords();
+}
+function line(parent,txt){const p=document.createElement('p');p.textContent=txt;parent.append(p);return p}
+function field(label,value,max){
+ const wrapper=document.createElement('label');wrapper.textContent=label;
+ const input=document.createElement('input');input.value=value;input.maxLength=max;input.style.cssText='display:block;width:100%;padding:9px;border-radius:6px;margin:5px 0 10px';wrapper.append(input);panel.append(wrapper);return input
+}
+function endpoint(){return document.querySelector('meta[name="ranking-endpoint"]')?.content||''}
+function ranking(back,run){
+ screen('records','<h2>랭킹 기록실</h2><p>친구를 비방하는 말이나 비속어는 삭제될 수 있습니다.</p>');
+ const url=endpoint(), record=records.find(r=>r.id===run);
+ if(record&&record.kills>0&&url&&!record.sent){
+  const nick=field('온라인에 표시할 별명',record.name,12),status=line(panel,'별명과 이번 잠수 기록이 공개됩니다.');
+  const send=button('이번 기록 등록',async()=>{
+   const name=nick.value.trim();
+   if(!/^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9 ]{1,12}$/.test(name)){status.textContent='별명은 한글, 영문, 숫자로 1~12자를 입력하세요.';return}
+   send.disabled=true;status.textContent='등록 중…';
+   try{
+    const res=await fetch(url,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({...record,name}),signal:AbortSignal.timeout(25000)});
+    if(!res.ok||!(await res.json()).ok)throw Error();
+    record.sent=true;record.name=name;saveRecords();if(status.isConnected)ranking(back,run);
+   }catch{status.textContent='등록을 확인할 수 없습니다. 연결을 확인한 뒤 다시 시도하세요.';send.disabled=false}
+  },true)
+ }
+ if(record?.sent)line(panel,'온라인 등록 완료');
+ const board=document.createElement('section');
+ let revision=0;
+ function show(rows,online){
+  board.replaceChildren();const title=document.createElement('h3');title.textContent=online?'온라인 순위 · 상위 50개 기록':'이 기기 · 최근 잠수 기록';board.append(title);
+  if(!rows.length){line(board,'첫 잠수 기록을 남겨 보세요.');return}
+  const list=document.createElement('ol');board.append(list);
+  for(const row of rows){const li=document.createElement('li');li.textContent=(online?row.name:new Date(row.date).toLocaleDateString('ko-KR'))+'　'+Number(row.score).toLocaleString()+'점 · S'+row.stage+' · '+row.kills+'마리';list.append(li)}
+ }
+ async function online(){
+  const version=++revision;board.textContent='온라인 기록을 불러오는 중…';
+  try{const res=await fetch(url+'?t='+Date.now(),{signal:AbortSignal.timeout(20000)}),data=await res.json();
+   if(!res.ok||!data.ok||!Array.isArray(data.rows))throw Error();if(version===revision)show(data.rows,true)
+  }catch{if(version===revision)board.textContent='온라인 기록을 불러오지 못했습니다. 온라인 순위를 눌러 다시 시도하세요.'}
+ }
+ if(url)button('온라인 순위',online);
+ button('이 기기 기록',()=>{revision++;show(records,false)});button('돌아가기',back);
+ panel.append(board);if(url)online();else show(records,false)
+}
+let prev=0;
+function frame(ms){const dt=Math.min(.05,Math.max(0,(ms-prev)/1000));prev=ms;if(mode==='play')step(dt);render(mode==='intro'?ms/1000:clock);requestAnimationFrame(frame)}
+resize();fresh();intro();new ResizeObserver(resize).observe(canvas);requestAnimationFrame(frame);
+</script></html>
